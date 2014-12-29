@@ -1,19 +1,20 @@
-liveCoder3 Demo
-================
+                        liveCoder3 Demo
+                       =================
 
-Source: http://learningthreejs.com/
+            Source: http://learningthreejs.com/
 
-Demo: http://kustomzone.github.io/liveCoder3/demo3.htm
+      Demo: http://kustomzone.github.io/liveCoder3/demo3.htm
 
-ToDo:  Fix style issue in Mathon..
 
-      Puzzle.. works in Chrome
-               works in Firfox (slow)
-               works in Mathon Nitro
-               works in Mathon 4.4 (on local drive)
-               
-....but doesn't work in Mathon 4.4 (on github)
-    
-conclusion: could be badly cached (?)
+ 
+Notes on embedded <iframe> content..
 
------------------------------------------------------
+- Occasional style conflicts for browser such as Mathon 4.4 (improved in Nitro)
+- Flash Plugin bug which draws Flash perpendicular to the viewer (Maxthon #?)
+
+Todo..
+
+(test sites & browsers for render speeds, other issues)
+
+
+------------------------------------------------------------------------
