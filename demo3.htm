@@ -98,15 +98,27 @@
 	rendererMain.domElement.style.zIndex	= 1;
 	rendererCSS.domElement.appendChild( rendererMain.domElement );
 
-	var element	= document.createElement('iframe')
-	// element.src	= 'http://www.december.com/html/demo/hello.html'
-	element.src	= 'http://kustomzone.github.io/liveCoder3/demo3.htm'
+	var element	= document.createElement('iframe');
+	
+	var timeCheck = Date.now();
+	console.log('timeCheck');
+	console.log(timeCheck);
+	
+	// inception
+	if (timeCheck) { 
+		element.src = 'http://kustomzone.github.io/liveCoder3/demo3.htm';
+	} else {
+		element.src	= 'http://www.december.com/html/demo/hello.html';
+	}
+	
+	// screen size
 	element.style.width = '1024px';
 	element.style.height = '1024px';
-
+	
+	// css-3D
 	var sceneCSS	= new THREE.Scene();
 	var objectCSS 	= new THREE.CSS3DObject( element );
-window.objectCSS	= objectCSS
+	window.objectCSS	= objectCSS
 	objectCSS.scale.multiplyScalar(1/63.5)
 	sceneCSS.add( objectCSS );
 
