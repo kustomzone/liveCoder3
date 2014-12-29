@@ -105,7 +105,9 @@
 	console.log(timeCheck);
 	
 	// inception
-	if (timeCheck) { 
+	var half = (timeCheck % 2);
+	console.log('mod = ' + half);
+	if (half === 0) { 
 		element.src = 'http://kustomzone.github.io/liveCoder3/demo3.htm';
 	} else {
 		element.src	= 'http://www.december.com/html/demo/hello.html';
