@@ -1,14 +1,15 @@
 
-                       =================
+                      ===================
                         liveCoder3 Demo
-                       =================
+                      ===================
+					    Updated 1/1/2015
+						
 										
-        Source: http://learningthreejs.com/
+    Source: http://learningthreejs.com/
 		
 	Proto : http://kustomzone.github.io/liveCoder3/demo3.htm
 	
 	 Demo : http://kustomzone.github.io/liveCoder3/demo2.htm
-	
 	
 	
 ------------------------------------------------------------------------------
@@ -20,16 +21,13 @@ Notes on embedded <iframe> content..
 
 ------------------------------------------------------------------------------
 
+Todo : Bugs!
 
-Todo..
+Uncaught MouseHandler
+Scene is not defined
+PlaneGeometry (three.js @ 9790)
 
-Repair Settings Menu
-
-Handle the Unhandled MouseHandler
-
-PlaneGeometry Fix (three.js @ 9790)
-
-~~
+~~~
 
 (test sites & browsers for render speeds, other issues)
 
