@@ -1,5 +1,7 @@
 // File:src/Three.js
 
+// Plane + Geometry 9787....
+
 /**
  * @author mrdoob / http://mrdoob.com/
  */
@@ -8006,7 +8008,7 @@ THREE.EventDispatcher.prototype.apply( THREE.Object3D.prototype );
 
 THREE.Object3DIdCount = 0;
 
-// File:src/core/Projector.js
+// File: src/core/Projector.js  (?)
 
 /**
  * @author mrdoob / http://mrdoob.com/
@@ -8375,7 +8377,6 @@ THREE.BufferGeometry.prototype = {
 		if ( normal !== undefined ) {
 
 			var normalMatrix = new THREE.Matrix3().getNormalMatrix( matrix );
-
 			normalMatrix.applyToVector3Array( normal.array );
 			normal.needsUpdate = true;
 
@@ -9785,6 +9786,7 @@ THREE.Geometry.prototype = {
 
 	merge: function ( geometry, matrix, materialIndexOffset ) {
 
+		// THREE.PlaneGeometry
 		if ( geometry instanceof THREE.PlaneGeometry === false ) {
 
 			console.error( 'THREE.Geometry.merge(): geometry not an instance of THREE.Geometry.', geometry );
