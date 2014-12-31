@@ -19,7 +19,17 @@ Notes on embedded <iframe> content..
 - Flash Plugin bug which draws Flash perpendicular to the viewer (Maxthon #?)
 
 ------------------------------------------------------------------------------
+
+
 Todo..
+
+Repair Settings Menu
+
+Handle the Unhandled MouseHandler
+
+PlaneGeometry Fix (three.js @ 9790)
+
+~~
 
 (test sites & browsers for render speeds, other issues)
 
