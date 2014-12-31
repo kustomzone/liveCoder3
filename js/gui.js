@@ -1,5 +1,7 @@
 // "imports"
 
+// MouseHandler (Missing Object)
+
 var pickingRay                  = THREE.CodeEditor.raycasting.pickingRay;
 var getRelativeMouseXYFromEvent = THREE.CodeEditor.raycasting.getRelativeMouseXYFromEvent;
 var getRelativeMouseXY          = THREE.CodeEditor.raycasting.getRelativeMouseXY;
@@ -7,14 +9,14 @@ var pickObjFromDOMEvent         = THREE.CodeEditor.raycasting.pickObjFromDOMEven
 var isFullscreen                = THREE.CodeEditor.domevents.isFullscreen;
 
 var userOptions = lively.lang.obj.extend({
-  "fullscreen": function() { world.enterFullScreen(); },
-  "align": "not aligned",
-  "editor height": codeEditor.getHeight(),
-  "editor width": codeEditor.getWidth(),
-  "shoot ray": function() { drawRay({x:0,y:0}); },
-  "remove rays": removeRays,
-  "show console": false,
-  _setConsole: function _setConsole(val) {
+  "fullscreen": 	function() { world.enterFullScreen(); },
+  "align": 						"not aligned",
+  "editor height": 				codeEditor.getHeight(),
+  "editor width": 				codeEditor.getWidth(),
+  "shoot ray": 		function() { drawRay({x:0,y:0}); },
+  "remove rays": 				removeRays,
+  "show console": 				false,
+  _setConsole: 		function _setConsole(val) {
     gui && gui.saveToLocalStorageIfPossible();
     var log = document.querySelector("#log");
     if (!log && !val) return;
@@ -26,6 +28,7 @@ var userOptions = lively.lang.obj.extend({
 
 
 // some convenient extension of global objects:
+
 lively.lang.deprecatedLivelyPatches();
 
 var storage = setupLocalstorage();
