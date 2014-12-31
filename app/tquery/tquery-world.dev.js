@@ -2,11 +2,8 @@
 
 // ======================================================================================================================
 
+// Tquery.js - https://github.com/jeromeetienne/tquery - MIT License
 
-// Tquery.js
-
-
-// tquery.js - https://github.com/jeromeetienne/tquery - MIT License
 /**
  * @fileOverview This file is the core of tQuery library. 
 */
@@ -20,8 +17,7 @@
  * @param {THREE.Object3D} rootnode
  * @returns {tQuery.*} the tQuery object created
 */
-var tQuery	= function(object, root)
-{
+var tQuery	= function(object, root) {
 	// support for tQuery(geometry, material)
 	if( arguments.length === 2 && 
 			(arguments[0] instanceof THREE.Geometry
@@ -36,34 +32,34 @@ var tQuery	= function(object, root)
 		return tQuery( tMesh );
 	}
 
-// TODO make tthat cleaner
-// - there is a list of functions registered by each plugins
+// TODO make cleaner
+//   - there is a list of functions registered by each plugins
 //   - handle() object instanceof THREE.Mesh
 //   - create() return new tQuery(object)
-// - this list is processed in order here
+//   - this list is processed in order here
 
 	// if the object is an array, compare only the first element
 	// - up to the subconstructor to check if the whole array has proper type
 	var instance	= Array.isArray(object) ? object[0] : object;
 
-	if( instance instanceof THREE.Mesh  && tQuery.Mesh){
+	if( instance instanceof THREE.Mesh  && tQuery.Mesh) {
 		return new tQuery.Mesh(object);
-	}else if( instance instanceof THREE.DirectionalLight && tQuery.DirectionalLight){
+	} else if ( instance instanceof THREE.DirectionalLight && tQuery.DirectionalLight) {
 		return new tQuery.DirectionalLight(object);
-	}else if( instance instanceof THREE.AmbientLight && tQuery.AmbientLight){
+	} else if ( instance instanceof THREE.AmbientLight && tQuery.AmbientLight) {
 		return new tQuery.AmbientLight(object);
-	}else if( instance instanceof THREE.Light && tQuery.Light){
+	} else if ( instance instanceof THREE.Light && tQuery.Light) {
 		return new tQuery.Light(object);
 
-	}else if( instance instanceof THREE.Object3D  && tQuery.Object3D){
+	} else if ( instance instanceof THREE.Object3D  && tQuery.Object3D) {
 		return new tQuery.Object3D(object);
-	}else if( instance instanceof THREE.Geometry && tQuery.Geometry){
+	} else if ( instance instanceof THREE.Geometry && tQuery.Geometry) {
 		return new tQuery.Geometry(object);
-	}else if( instance instanceof THREE.Material && tQuery.Material){
+	} else if ( instance instanceof THREE.Material && tQuery.Material) {
 		return new tQuery.Material(object);
-	}else if( typeof instance === "string" && tQuery.Object3D){
+	} else if ( typeof instance === "string" && tQuery.Object3D) {
 		return new tQuery.Object3D(object, root);
-	}else{
+	} else {
 		console.assert(false, "unsupported type")
 	}
 	return undefined;
@@ -88,8 +84,7 @@ tQuery.VERSION	= "r59.0";
  * 
  * @returns {*} return the value stored in this object for this key
 */
-tQuery.data	= function(object, key, value, mustNotExist)
-{
+tQuery.data	= function(object, key, value, mustNotExist) {
 	// sanity check
 	console.assert( object, 'invalid parameters' );
 	console.assert( typeof key === 'string', 'invalid parameters');
@@ -116,7 +111,7 @@ tQuery.data	= function(object, key, value, mustNotExist)
  * @param  {string}  key    the key of the data
  * @return {Boolean}        true if the data exist, false otherwise
  */
-tQuery.hasData	= function(object, key){
+tQuery.hasData	= function(object, key) {
 	// if there is no data at all, return false
 	if( object['_tqData'] === undefined )		return false;
 	// if this data doesnt exist, return false
@@ -130,10 +125,9 @@ tQuery.hasData	= function(object, key){
  *
  * @param {Boolean} mustExist if true, ensure the key does exist, default to false
 */
-tQuery.removeData	= function(object, key, mustExist)
-{
+tQuery.removeData	= function(object, key, mustExist) {
 	// handle the 'key as Array' case
-	if( key instanceof Array ){
+	if ( key instanceof Array ) {
 		key.forEach(function(key){
 			tQuery.removeData(object, key);
 		})
@@ -142,7 +136,7 @@ tQuery.removeData	= function(object, key, mustExist)
 	// sanity check
 	console.assert( typeof key === "string");
 	// honor mustNotExist
-	if( mustExist ){
+	if ( mustExist ) {
 		console.assert(object['_tqData'][key] !== undefined, "This key doesnt already exists "+key);
 	}
 	// do delete the key
@@ -164,8 +158,8 @@ tQuery.removeData	= function(object, key, mustExist)
  * 
  * @returns {Boolean} return true if completed, false if interrupted
 */
-tQuery.each	= function(arr, callback){
-	for(var i = 0; i < arr.length; i++){
+tQuery.each	= function(arr, callback) {
+	for (var i = 0; i < arr.length; i++) {
 		var keepLooping	= callback(arr[i], i, arr)
 		if( keepLooping === false )	return false;
 	}
@@ -178,14 +172,14 @@ tQuery.each	= function(arr, callback){
  * available, fall back on Date.now()
  * see http://updates.html5rocks.com/2012/05/requestAnimationFrame-API-now-with-sub-millisecond-precision 
 */
-tQuery.now	= (function(){
+tQuery.now	= (function() {
 	var p			= window.performance	|| {};
-	if( p.now )		return function(){ return p.timing.navigationStart + p.now();		};
-	else if( p.mozNow )	return function(){ return p.timing.navigationStart + p.mozNow();	};
+	if( p.now )				return function(){ return p.timing.navigationStart + p.now();		};
+	else if( p.mozNow )		return function(){ return p.timing.navigationStart + p.mozNow();	};
 	else if( p.webkitNow )	return function(){ return p.timing.navigationStart + p.webkitNow()	};
 	else if( p.mskitNow )	return function(){ return p.timing.navigationStart + p.msNow()		};
 	else if( p.okitNow )	return function(){ return p.timing.navigationStart + p.oNow()		};
-	else			return function(){ return Date.now;					};	
+	else					return function(){ return Date.now;					};	
 })();
 
 /**
@@ -193,7 +187,7 @@ tQuery.now	= (function(){
  * and .nowSeconds()
  * @return {Number} tQuery.now() in seconds
  */
-tQuery.nowSeconds	= function(){
+tQuery.nowSeconds	= function() {
 	return tQuery.now() / 1000;
 }
 
@@ -203,15 +197,15 @@ tQuery.nowSeconds	= function(){
  * @param {Object} childClass the child class which gonna inherit
  * @param {Object} parentClass the class which gonna be inherited
 */
-tQuery.inherit	= function(childClass, parentClass){
+tQuery.inherit	= function(childClass, parentClass) {
 	// trick to avoid calling parentClass constructor
-	var tempFn		= function() {};
-	tempFn.prototype	= parentClass.prototype;
+	var tempFn				= function() {};
+	tempFn.prototype		= parentClass.prototype;
 	childClass.prototype	= new tempFn();
 
 
 	childClass.parent	= parentClass.prototype;
-	childClass.prototype.constructor= childClass;	
+	childClass.prototype.constructor = childClass;	
 };
 
 /**
@@ -219,22 +213,23 @@ tQuery.inherit	= function(childClass, parentClass){
  * http://jsapi.info/_/extend
  * similar to jquery one but much smaller
 */
-tQuery.extend = function(obj, base, deep){
+tQuery.extend = function(obj, base, deep) {
 	// handle parameter polymorphism
-	deep		= deep !== undefined ? deep	: true;
+	deep			= deep !== undefined ? deep	: true;
 	var extendFn	= deep ? deepExtend : shallowExtend;
-	var result	= {};
-	base	&& extendFn(result, base);
-	obj	&& extendFn(result, obj);
+	var result		= {};
+	base && extendFn(result, base);
+	obj	 && extendFn(result, obj);
 	return result;
 	
-	function shallowExtend(dst, src){
+	function shallowExtend(dst, src) {
 		Object.keys(src).forEach(function(key){
 			dst[key]	= src[key];
 		})
 	};
+	
 	// from http://andrewdupont.net/2009/08/28/deep-extending-objects-in-javascript/
-	function deepExtend(dst, src){
+	function deepExtend(dst, src) {
 		for (var property in src) {
 			if (src[property] && src[property].constructor && src[property].constructor === Object) {
 				dst[property] = dst[property] || {};
@@ -1066,17 +1061,17 @@ tQuery.Object3D._removeClassOne	= function(object3d, className){
 //			handling selection					//
 //////////////////////////////////////////////////////////////////////////////////
 
-tQuery.Object3D._select	= function(selector, root){
+tQuery.Object3D._select	= function(selector, root) { 
 	// handle parameter
-	root		= root	|| tQuery.world.tScene();
-	if( root instanceof tQuery.Object3D )	root	= root.get(0)
+	root = root	|| tQuery.world.tScene();
+	if( root instanceof tQuery.Object3D ) { root = root.get(0); }
 	var selectItems	= selector.split(' ').filter(function(v){ return v.length > 0;})
 	
 	// sanity check
 	console.assert(root instanceof THREE.Object3D);
 
 	var lists	= [];
-	root.children.forEach(function(child){
+	root.children.forEach(function(child) {
 		var nodes	= this._crawls(child, selectItems);
 		// FIXME reallocate the array without need
 		lists		= lists.concat(nodes);
@@ -1084,41 +1079,39 @@ tQuery.Object3D._select	= function(selector, root){
 	return lists;
 }
 
-tQuery.Object3D._crawls	= function(root, selectItems)
-{
+tQuery.Object3D._crawls	= function(root, selectItems) {
 	var result	= [];
-//console.log("crawl", root, selectItems)
+	//console.log("crawl", root, selectItems)
 	console.assert( selectItems.length >= 1 );
 	var match	= this._selectItemMatch(root, selectItems[0]);
-//console.log("  match", match)
+	//console.log("  match", match)
 	var nextSelect	= match ? selectItems.slice(1) : selectItems;
-//console.log("  nextSelect", nextSelect)
-
+	//console.log("  nextSelect", nextSelect)
+	
 	if( nextSelect.length === 0 )	return [root];
-
+	
 	root.children.forEach(function(child){
 		var nodes	= this._crawls(child, nextSelect);
 		// FIXME reallocate the array without need
 		result		= result.concat(nodes);
 	}.bind(this));
-
+	
 	return result;
 }
 
-// all the geometries keywords
-tQuery.Object3D._selectableGeometries	= Object.keys(THREE).filter(function(value){
+	// all the geometries keywords
+	tQuery.Object3D._selectableGeometries	= Object.keys(THREE).filter(function(value){
 	return value.match(/.+Geometry$/);}).map(function(value){ return value.replace(/Geometry$/,'').toLowerCase();
 });
 
-// all the light keywords
-tQuery.Object3D._selectableLights	= Object.keys(THREE).filter(function(value){
+	// all the light keywords
+	tQuery.Object3D._selectableLights	= Object.keys(THREE).filter(function(value){
 	return value.match(/.+Light$/);}).map(function(value){ return value.replace(/Light$/,'').toLowerCase();
 });
 
 tQuery.Object3D._selectableClasses	= ['mesh', 'light'];
 
-tQuery.Object3D._selectItemMatch	= function(object3d, selectItem)
-{
+tQuery.Object3D._selectItemMatch	= function(object3d, selectItem) {
 	// sanity check
 	console.assert( object3d instanceof THREE.Object3D );
 	console.assert( typeof selectItem === 'string' );

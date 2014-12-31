@@ -7,28 +7,29 @@
 	
 	<title>LiveCoder3 Demo</title>
 	
-	<meta http-equiv="cache-control" content="no-cache" />
-	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="pragma" content="no-cache">
+	
+	<link rel="stylesheet" href="lib/css/body.css">
+	
+	<!-- jquery -->
+	<script src="app/jquery/jquery-1.9.1.js" type="text/javascript"></script>
+	<script src="app/jquery/scroller.js" type="text/javascript"></script>
+	
 	
 	<!-- link rel="stylesheet" href="app/angular/angular-debug-bar.css" -->
 	<!-- script type="text/javascript" src="app/angular/angular-debug-bar.js"></script -->
 	<!-- script type="text/javascript" src="app/angular/angular.js"></script -->
 	
-	<script src="app/jquery/jquery-1.9.1.js" type="text/javascript"></script>
-	
 	<!--// scene is not defined? -->
-	
-	<script src="js/scroller.js" type="text/javascript"></script>
-	
-	<link rel="stylesheet" href="css/body.css">
 	
   </head>
   
   <body style="margin: 0;">
   
-  <!-- ng-app="angular-debug-bar" -->
+    <!-- ng-app="angular-debug-bar" -->
   
-  <progress value="0"></progress>
+    <progress value="0"></progress>
 	
 	<!-- APPS -->
 	
@@ -46,12 +47,13 @@
 	<script type="text/javascript" src="app/three/threex.domevents.js"></script>
 	<script type="text/javascript" src="app/three/threex.videotexture.js"></script>
 	<script type="text/javascript" src="app/three/threex.webcamtexture.js"></script>
+	
 	<script type="text/javascript" src="app/three/PlaneBufferGeometry.js"></script><!-- needed? -->
 	
 	<!--tquery + world.js -->
-	<script type="text/javascript" src="app/tquery-world.dev.js"></script>
+	<script type="text/javascript" src="app/tquery/tquery-world.dev.js"></script>
 	
-	<script>
+	<!-- script>
 	tQuery('.myClass').on('click', function(event){
 		console.log("An event of type", event.type, "has been trigger on ", event.target);
 		// If you wish to stop propagation, just do 
@@ -59,33 +61,26 @@
 	});
 	
 	tQuery('text').linkify('http://example.com')
-	
 	mesh.on('click', function() { mesh.scale.x *= 2; });
 
-	</script>
+	</script -->
 	
 	<!--lively-->
 	<script type="text/javascript" src="app/lively/lively.vm.dev.js"></script>
 	<script type="text/javascript" src="app/lively/lively.ast.dev.js"></script>
 	<!-- script type="text/javascript" src="app/lively/lively.lang.dev.js"></script -->
 	
-	<!--lively-2-lively-->
-	<!--<script type="text/javascript" src="http://lively-web.org/users/robertkrahn/node-lively2lively/lively2lively-browserified.js?name=three-codeeditor-simple&baseURL=http://lively-web.org:8080&autoload=true"></script></style>-->
-	
 	<!--codeeditor-3d-->
 	<script type="text/javascript" src="app/three-codeeditor/codeeditor3d.dev.js"></script>
 	<script type="text/javascript" src="app/three-codeeditor/mode-javascript.js"></script>
 	<script type="text/javascript" src="app/three-codeeditor/theme-twilight.js"></script>
+	<script type="text/javascript" src="app/three-codeeditor/keybinding-emacs.js"></script>
 	
 	 <!--ui related-->
 	<script type="text/javascript" src="lib/dat.gui.js"></script>
 	<script type="text/javascript" src="lib/mousetrap.js"></script>
 	<script type="text/javascript" src="lib/mouseevents.js"></script>
-	<!-- mouseHandler ??? -->
-	
-	<!--font-->
 	<script type="text/javascript" src="lib/fonts/droid/droid_sans_bold.typeface.js"></script>
-	<script type="text/javascript" src="lib/fonts/helvetiker_regular.typeface.js"></script>
 	
 	<!-- SCENE -->
 	
@@ -171,7 +166,7 @@
 			+ "var welcome = new THREE.Mesh(shape, wrapper);\n"
 			+ "\n"
 			+ "welcome.position.x = -700;\n"
-			+ "welcome.position.y = 820;\n"
+			+ "welcome.position.y =  820;\n"
 			+ "welcome.position.z = -850;\n"
   			+ "\n"
   			+ "world.scene.add(welcome);\n"
@@ -189,11 +184,12 @@
 			+ + "// Moon...\n"
 			+ "\n"
 			+ "var sphereGeo = new THREE.SphereGeometry(100, 32, 16);\n"
-			+ "var moonTexture = THREE.ImageUtils.loadTexture( 'images/moon.jpg' );\n"
+			+ "var moonTexture = THREE.ImageUtils.loadTexture( 'lib/moon.jpg' );\n"
 			+ "var moonMaterial = new THREE.MeshBasicMaterial( { map: moonTexture } );\n"
 			+ "var moon = new THREE.Mesh(sphereGeo, moonMaterial);\n"
 			+ "\n"
 			+ "world.scene.add(moon);\n"
+			+ "\n"
 			+ "\n"
 			+ "// animate moon...\n"
 			+ "var render = function () {\n"
@@ -235,17 +231,19 @@
 		  codeEditor.setSize(400, 400);
 		  codeEditor.setValue(code);
 		}
-
+		
 		if (world.orbitControl) {
 		  world.orbitControl.target = codeEditor.position.clone();
-		} else world.camera.lookAt(codeEditor.position);
+		} else {
+		  world.camera.lookAt(codeEditor.position);
+		}
+		
+		// create the plane mesh
+		var css3D    = new THREE.PlaneBufferGeometry();
+		var material = new THREE.MeshBasicMaterial({ wireframe: true });
+		var plane    = new THREE.Mesh( css3D, material );
 	
-	// create the plane mesh
-	var css3D    = new THREE.PlaneBufferGeometry();
-	var material = new THREE.MeshBasicMaterial({ wireframe: true });
-	var plane    = new THREE.Mesh( css3D, material );
-	
-	world.scene.add(plane);
+		world.scene.add(plane);
 	
 	// ----------- paused -----------------
 	/*
@@ -271,7 +269,8 @@
 	*/
 	
 	// -------------- paused ----------------
-			
+		
+		
 		// For debugging
 		window.world = world;
 		window.codeEditor = codeEditor;
@@ -286,7 +285,7 @@
 	<br><br><br><br><br><br><br><br><br><br><br>
 	<br><br><br><br><br><br><br><br><br><br><br>
 	<br><br><br><br><br><br><br><br><br><br><br>
-	<br><br><br><br><br><br>
+	<br><br><br><br><br>
 	
   </body>
 </html>

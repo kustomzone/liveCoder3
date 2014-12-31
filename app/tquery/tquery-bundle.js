@@ -40659,54 +40659,42 @@ tQuery.World.registerInstance('pageTitle', function(element){
 /**
  * define a default page title for plugins
  */
+ 
 tQuery.World.registerInstance('defaultPageTitle', function(){
-	var location	= window.location;
+	var location = window.location;
 	var matches	= location.pathname.match(/^\/plugins\/([^/]+)\//);
-	var isPlugin	= matches ? true : false;
-	// create the element
+	var isPlugin = matches ? true : false;
 	var element	= document.createElement('div');
-	if( isPlugin ){
-		var pluginName	= isPlugin ? matches[1] : null;
-		element.innerHTML= [
+	if (isPlugin) {
+		var pluginName = isPlugin ? matches[1] : null;
+		element.innerHTML = [
 			'Example for <a href="https://github.com/jeromeetienne/tquery/tree/dev/plugins/'
-				+pluginName
-				+'#readme" target="_blank">'
-				+'tQuery.'+pluginName
-				+'</a> plugin - ',
-			'<a href="https://github.com/mrdoob/three.js/" target="_blank">three.js</a> thru ',
-			'<a href="../../../" target="_blank">tQuery API</a>',
-			'<br/>',
-			'Try it in a ',
-			'<a href="../../../www/live/editor/#U/../../..',
+				+ pluginName
+				+ '#readme" target="_blank">'
+				+ 'tQuery.'+ pluginName
+				+ '</a> plugin - ',
 			location.pathname+'" target="_blank">live editor</a>'
 		].join('\n');
-	}else{
-		element.innerHTML= [
+	} else {
+		element.innerHTML = [
 			'Example of tQuery - ',
 			'<a href="https://github.com/mrdoob/three.js/" target="_blank">three.js</a> thru ',
 			'<a href="../../../" target="_blank">tQuery API</a>',
 		].join('\n');						
 	}
-	document.body.appendChild(element)
-
-	// set it up as page Title
-	this.pageTitle(element)
-	// for chained API
-	return this;
+	document.body.appendChild(element);
+	this.pageTitle(element);
+	return this; // chained API
 });
 
 
 tQuery.World.registerInstance('devicePixelRatio', function(ratio){
-	// change devicePixelRatio
-	var tRenderer	= this.tRenderer();
+	var tRenderer = this.tRenderer(); // change devicePixelRatio
 	tRenderer.devicePixelRatio	= ratio;
-
-	// get context
-	var ctx		= tQuery.data(this, '_boilerplateCtx');
+	var ctx	= tQuery.data(this, '_boilerplateCtx'); // get context
 	var windowResize= ctx.windowResize;
 	windowResize.trigger();
-	// for chained API
-	return this;
+	return this; // chained API
 });
 
 tQuery.World.registerInstance('addBoilerplate', function(opts){
@@ -40750,26 +40738,23 @@ tQuery.World.registerInstance('addBoilerplate', function(opts){
 	// create a camera contol
 	if( opts.cameraControls ){
 		ctx.cameraControls	= new THREEx.DragPanControls(tCamera);
-		this.setCameraControls(ctx.cameraControls);		
+		this.setCameraControls(ctx.cameraControls);
 	}
 
 	// transparently support window resize
-	if( opts.windowResize ){
-		ctx.windowResize	= THREEx.WindowResize.bind(tRenderer, tCamera);		
-	}
+	if( opts.windowResize ){ ctx.windowResize = THREEx.WindowResize.bind(tRenderer, tCamera); }
+	
 	// allow 'p' to make screenshot
-	if( opts.screenshot ){		
-		ctx.screenshot		= THREEx.Screenshot.bindKey(tRenderer);
-	}
+	if (opts.screenshot) { ctx.screenshot = THREEx.Screenshot.bindKey(tRenderer); }
 	// allow 'f' to go fullscreen where this feature is supported
-	if( opts.fullscreen && THREEx.FullScreen.available() ){
-		ctx.fullscreen	= THREEx.FullScreen.bindKey();		
+	if (opts.fullscreen && THREEx.FullScreen.available()) {
+		ctx.fullscreen	= THREEx.FullScreen.bindKey();
 	}
-
+	
 	// bind 'destroy' event on tQuery.world
 	ctx._$onDestroy	= this.bind('destroy', function(){
-		if( this.hasBoilerplate() === false )	return;
-		this.removeBoilerplate();	
+		if (this.hasBoilerplate() === false) { return; }
+		this.removeBoilerplate();
 	});
 	
 	
@@ -40778,7 +40763,7 @@ tQuery.World.registerInstance('addBoilerplate', function(opts){
 	var onMobile	= 'ontouchstart' in window ? true : false;
 	onMobile	&& this.devicePixelRatio(1/2)
 	
-
+	
 	// for chained API
 	return this;
 });
@@ -40813,6 +40798,7 @@ tQuery.World.registerInstance('removeBoilerplate', function(){
 	// unbind fullscreen
 	ctx.fullscreen		&& ctx.fullscreen.unbind();
 });
+
 // This THREEx helper makes it easy to handle window resize.
 // It will update renderer and camera when window is resized.
 //
