@@ -1,7 +1,5 @@
 // File:src/Three.js
 
-// Plane + Geometry 9787....
-
 /**
  * @author mrdoob / http://mrdoob.com/
  */

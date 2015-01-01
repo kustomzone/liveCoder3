@@ -5,7 +5,7 @@
   <head>
 	<meta charset="utf-8">
 	
-	<title>LiveCoder3 Demo</title>
+	<title>LiveCoder3</title>
 	
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="pragma" content="no-cache">
@@ -14,14 +14,7 @@
 	
 	<!-- jquery -->
 	<script src="app/jquery/jquery-1.9.1.js" type="text/javascript"></script>
-	<script src="app/jquery/scroller.js" type="text/javascript"></script>
-	
-	
-	<!-- link rel="stylesheet" href="app/angular/angular-debug-bar.css" -->
-	<!-- script type="text/javascript" src="app/angular/angular-debug-bar.js"></script -->
-	<!-- script type="text/javascript" src="app/angular/angular.js"></script -->
-	
-	<!--// scene is not defined? -->
+	<script src="app/jquery/scroller.js" 	 type="text/javascript"></script>
 	
   </head>
   
@@ -48,10 +41,20 @@
 	<script type="text/javascript" src="app/three/threex.videotexture.js"></script>
 	<script type="text/javascript" src="app/three/threex.webcamtexture.js"></script>
 	
-	<script type="text/javascript" src="app/three/PlaneBufferGeometry.js"></script><!-- needed? -->
+	<!-- PlaneGeometry -->
+	<!-- script type="text/javascript" src="app/three/PlaneBufferGeometry.js"></script -->
 	
 	<!--tquery + world.js -->
+	
+	<!-- + instance? -->
+	
 	<script type="text/javascript" src="app/tquery/tquery-world.dev.js"></script>
+	
+	<!-- demo3 tquery-bundle needed? -->
+	<!-- script type="text/javascript" src="app/tquery/tquery-bundle.js"></script -->
+	<!-- script type="text/javascript" src="app/tquery/tquery-all.js"></script -->
+	
+	<!-- paused ----------------------------------------------------------------->
 	
 	<!-- script>
 	tQuery('.myClass').on('click', function(event){
@@ -65,21 +68,28 @@
 
 	</script -->
 	
+	<!-- paused ----------------------------------------------------------------->
+	
 	<!--lively-->
 	<script type="text/javascript" src="app/lively/lively.vm.dev.js"></script>
 	<script type="text/javascript" src="app/lively/lively.ast.dev.js"></script>
+	
 	<!-- script type="text/javascript" src="app/lively/lively.lang.dev.js"></script -->
 	
+	
 	<!--codeeditor-3d-->
-	<script type="text/javascript" src="app/three-codeeditor/codeeditor3d.dev.js"></script>
-	<script type="text/javascript" src="app/three-codeeditor/mode-javascript.js"></script>
-	<script type="text/javascript" src="app/three-codeeditor/theme-twilight.js"></script>
-	<script type="text/javascript" src="app/three-codeeditor/keybinding-emacs.js"></script>
+	<script type="text/javascript" src="app/three/codeeditor/codeeditor3d.dev.js"></script>
+	<script type="text/javascript" src="app/three/codeeditor/mode-javascript.js"></script>
+	<script type="text/javascript" src="app/three/codeeditor/theme-twilight.js"></script>
+	<script type="text/javascript" src="app/three/codeeditor/keybinding-emacs.js"></script>
+	
 	
 	 <!--ui related-->
 	<script type="text/javascript" src="lib/dat.gui.js"></script>
 	<script type="text/javascript" src="lib/mousetrap.js"></script>
 	<script type="text/javascript" src="lib/mouseevents.js"></script>
+	<script type="text/javascript" src="lib/autocomplete.js"></script>
+	
 	<script type="text/javascript" src="lib/fonts/droid/droid_sans_bold.typeface.js"></script>
 	
 	<!-- SCENE -->
@@ -88,29 +98,31 @@
 	
 	  var htmlCode = document.documentElement.innerHTML;
 	  var useVR = !!navigator.mozGetVRDevices || !!navigator.getVRDevices;
-	  var isMac = navigator.userAgent.indexOf("Mac OS X") > -1;
+	  // var isMac = navigator.userAgent.indexOf("Mac OS X") > -1;
 	  THREE.World.create(document.body, {useOrbitControl: true, useVR: useVR}, function(err, world) {
-
+		
 		world.startLoop();
 		world.renderer.setClearColor(0x333F47, 1);
-		world.camera.position.set(0,200,320);
+		world.camera.position.set(0,200,1200);
 		world.camera.far = 100000;
 		world.camera.updateProjectionMatrix();
-
+		
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-
 		// some geometry to play with
 		// -=-=-=-=-=-=-=-=-=-=-=-=-=-
-
+		
 		var plane = new THREE.Mesh(
-			new THREE.PlaneBufferGeometry(2000,2000, 20,20),
+			new THREE.PlaneBufferGeometry(2000, 2000, 16, 16),
 			new THREE.MeshBasicMaterial({
-			  color: 0x00ffff, wireframe: true,
-			  side: THREE.DoubleSide}));
-		plane.position.set(plane.position.x/2, 0, plane.position.z/2);
-		plane.rotation.x = Math.PI/2
+			  color: 0x009999, wireframe: true,
+			  side: THREE.DoubleSide})
+		);
+		
+		plane.position.set(plane.position.x / 2, 0, plane.position.z / 2 );
+		plane.rotation.x = Math.PI / 2;
 		world.scene.add(plane);
-
-
+		
+		
 		// -=-=-=-=-=-=-=-=-=-
 		// events + controls
 		// -=-=-=-=-=-=-=-=-=-
@@ -125,7 +137,7 @@
 		var codeEditor = new THREE.CodeEditor(world.renderer.domElement, world.events);
 		world.scene.add(codeEditor);
 		
-		codeEditor.position.set(0,225,-200)
+		codeEditor.position.set(0,700,-1400);
 		codeEditor.aceEditor.keyBinding.addKeyboardHandler(ace.require("ace/keyboard/emacs").handler);
 		
 		var occurStartCommand = ace.require("ace/commands/occur_commands").occurStartCommand;
@@ -228,14 +240,15 @@
 			+ "// ------------------------- eof --------------------------\n"
 			+ "\n";
 			
-		  codeEditor.setSize(400, 400);
+		  codeEditor.setSize(1164, 1232);
 		  codeEditor.setValue(code);
+		  
 		}
 		
 		if (world.orbitControl) {
-		  world.orbitControl.target = codeEditor.position.clone();
+			world.orbitControl.target = codeEditor.position.clone();
 		} else {
-		  world.camera.lookAt(codeEditor.position);
+			world.camera.lookAt(codeEditor.position);
 		}
 		
 		// create the plane mesh
@@ -245,7 +258,7 @@
 	
 		world.scene.add(plane);
 	
-	// ----------- paused -----------------
+	// ----------- paused --------------------
 	/*
 	
 	// create the dom Element
@@ -270,22 +283,19 @@
 	
 	// -------------- paused ----------------
 		
-		
 		// For debugging
 		window.world = world;
 		window.codeEditor = codeEditor;
+		
 	  });
 	
 	</script>
 	
 	<script type="text/javascript" src="lib/gui.js"></script>
 	
-	<!-- angular-debug-bar></angular-debug-bar -->
+	<br><br><br>
 	
-	<br><br><br><br><br><br><br><br><br><br><br>
-	<br><br><br><br><br><br><br><br><br><br><br>
-	<br><br><br><br><br><br><br><br><br><br><br>
-	<br><br><br><br><br>
+	<!-- angular-debug-bar></angular-debug-bar -->
 	
   </body>
 </html>
